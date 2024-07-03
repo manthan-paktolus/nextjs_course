@@ -2,11 +2,21 @@ import Image from "next/image";
 import Styles from "./page.module.css";
 import { getMeal } from "@/lib/meals";
 import { notFound } from "next/navigation";
-const MealDetailsPage = ({ params }) => {
+
+export const generateMetadata = async ({ params }) => {
   const meal = getMeal(params.mealId);
   if (!meal) {
     notFound();
   }
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+};
+
+const MealDetailsPage = ({ params }) => {
+  const meal = getMeal(params.mealId);
+
   meal.instructions = meal.instructions.replace(/\n/g, "<br />");
   return (
     <>
